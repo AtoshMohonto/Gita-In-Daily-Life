@@ -1,0 +1,116 @@
+:root {
+  --gidl-bg: #faf6ef;
+  --gidl-surface: #ffffff;
+  --gidl-text: #2b2620;
+  --gidl-text-muted: #6b6156;
+  --gidl-border: #e8dfd0;
+  --gidl-primary: #7a3b3b;
+  --gidl-primary-dark: #5e2c2c;
+  --gidl-accent: #c98a3e;
+}
+
+body {
+  background-color: var(--gidl-bg);
+  color: var(--gidl-text);
+  font-family: 'Noto Sans', system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.font-serif,
+h1, h2, h3, h4,
+.verse-sanskrit {
+  font-family: 'Noto Serif', Georgia, 'Times New Roman', serif;
+}
+
+.verse-sanskrit {
+  font-size: 1.35rem;
+  line-height: 2.1;
+  color: var(--gidl-primary-dark);
+}
+
+a { color: var(--gidl-primary); }
+a:hover { color: var(--gidl-primary-dark); }
+
+.navbar-gidl {
+  background-color: var(--gidl-surface);
+  border-bottom: 1px solid var(--gidl-border);
+}
+
+.navbar-gidl .navbar-brand {
+  font-family: 'Noto Serif', serif;
+  font-weight: 700;
+  color: var(--gidl-primary-dark);
+}
+
+.btn-primary {
+  background-color: var(--gidl-primary);
+  border-color: var(--gidl-primary);
+}
+.btn-primary:hover {
+  background-color: var(--gidl-primary-dark);
+  border-color: var(--gidl-primary-dark);
+}
+.btn-outline-primary {
+  color: var(--gidl-primary);
+  border-color: var(--gidl-primary);
+}
+.btn-outline-primary:hover {
+  background-color: var(--gidl-primary);
+  border-color: var(--gidl-primary);
+}
+
+.hero-gidl {
+  background: linear-gradient(180deg, #fff9ef 0%, var(--gidl-bg) 100%);
+  border-bottom: 1px solid var(--gidl-border);
+}
+
+.card-gidl {
+  background: var(--gidl-surface);
+  border: 1px solid var(--gidl-border);
+  border-radius: .75rem;
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+.card-gidl:hover {
+  box-shadow: 0 .5rem 1.25rem rgba(43,38,32,.08);
+  transform: translateY(-2px);
+}
+
+.situation-tile {
+  display: block;
+  background: var(--gidl-surface);
+  border: 1px solid var(--gidl-border);
+  border-radius: .75rem;
+  padding: 1.25rem;
+  text-decoration: none;
+  color: var(--gidl-text);
+  height: 100%;
+}
+.situation-tile:hover {
+  border-color: var(--gidl-primary);
+  color: var(--gidl-primary-dark);
+}
+
+.wisdom-card {
+  background: var(--gidl-surface);
+  border: 1px solid var(--gidl-border);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.badge-label {
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-size: .72rem;
+  font-weight: 600;
+}
+
+.content-block {
+  border-left: 3px solid var(--gidl-accent);
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+footer.site-footer {
+  background: var(--gidl-surface);
+  border-top: 1px solid var(--gidl-border);
+  color: var(--gidl-text-muted);
+}

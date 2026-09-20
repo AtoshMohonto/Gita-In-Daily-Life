@@ -1,0 +1,48 @@
+<?php
+declare(strict_types=1);
+
+return [
+    'table' => 'verses',
+    'model' => 'Verse',
+    'title' => 'Verses',
+    'order_by' => 'chapter_id ASC, verse_number ASC',
+    'per_page' => 20,
+    'list_columns' => [
+        'verse_number' => '#',
+        'key_teaching' => 'Key Teaching',
+        'status' => 'Status',
+        'featured' => 'Featured',
+    ],
+    'search_columns' => ['sanskrit_text', 'transliteration', 'simple_translation_en', 'key_teaching'],
+    'fields' => [
+        'gita_id' => ['label' => 'Gita', 'type' => 'relation', 'required' => true,
+            'relation_table' => 'gitas', 'relation_label' => 'name', 'relation_order_by' => 'name'],
+        'chapter_id' => ['label' => 'Chapter', 'type' => 'relation', 'required' => true,
+            'relation_table' => 'chapters', 'relation_label' => "CONCAT('Ch ', chapter_number, ': ', name)", 'relation_order_by' => 'gita_id, chapter_number'],
+        'verse_number' => ['label' => 'Verse Number', 'type' => 'number', 'required' => true],
+        'sanskrit_text' => ['label' => 'Sanskrit Text', 'type' => 'textarea'],
+        'transliteration' => ['label' => 'Transliteration', 'type' => 'textarea'],
+        'word_by_word_meaning' => ['label' => 'Word-by-Word Meaning', 'type' => 'textarea'],
+        'literal_translation' => ['label' => 'Literal Translation', 'type' => 'textarea'],
+        'simple_translation_en' => ['label' => 'Simple English Translation', 'type' => 'richtext'],
+        'translation_bn' => ['label' => 'Bengali Translation', 'type' => 'textarea'],
+        'explanation' => ['label' => 'Explanation', 'type' => 'richtext'],
+        'philosophical_meaning' => ['label' => 'Philosophical Meaning', 'type' => 'richtext'],
+        'key_teaching' => ['label' => 'Key Teaching (short)', 'type' => 'text'],
+        'translator' => ['label' => 'Translator', 'type' => 'text'],
+        'commentator' => ['label' => 'Commentator', 'type' => 'text'],
+        'topics' => ['label' => 'Topics', 'type' => 'multiselect',
+            'pivot_table' => 'verse_topics', 'pivot_local_key' => 'verse_id', 'pivot_foreign_key' => 'topic_id',
+            'options_table' => 'topics', 'options_label' => 'name'],
+        'situations' => ['label' => 'Related Life Situations', 'type' => 'multiselect',
+            'pivot_table' => 'verse_situations', 'pivot_local_key' => 'verse_id', 'pivot_foreign_key' => 'situation_id',
+            'options_table' => 'situations', 'options_label' => 'name'],
+        'teachings' => ['label' => 'Related Teachings', 'type' => 'multiselect',
+            'pivot_table' => 'verse_teachings', 'pivot_local_key' => 'verse_id', 'pivot_foreign_key' => 'teaching_id',
+            'options_table' => 'teachings', 'options_label' => 'title'],
+        'featured' => ['label' => 'Featured', 'type' => 'checkbox'],
+        'status' => ['label' => 'Status', 'type' => 'select', 'options' => [
+            'draft' => 'Draft', 'pending' => 'Pending Review', 'published' => 'Published', 'archived' => 'Archived',
+        ], 'default' => 'draft'],
+    ],
+];
