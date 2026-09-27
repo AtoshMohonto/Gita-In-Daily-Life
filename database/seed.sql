@@ -39,15 +39,37 @@ INSERT INTO role_permissions (role_id, permission_id)
 SELECT r.id, p.id FROM roles r JOIN permissions p ON p.slug = 'draft_content'
 WHERE r.slug = 'contributor';
 
--- Seeded Super Admin. Password: GitaAdmin@2026 — change after first login.
-INSERT INTO users (name, username, email, password_hash, role_id, status)
-VALUES (
-    'Site Administrator',
-    'admin',
-    'callcenter.ovijat@gmail.com',
+-- Demo accounts, one per role. Change these passwords before any real deployment.
+-- super_admin  admin        / GitaAdmin@2026
+-- admin        siteadmin    / Admin@2026
+-- editor       editor       / Editor@2026
+-- contributor  contributor  / Contrib@2026
+-- registered_user reader    / Reader@2026
+INSERT INTO users (name, username, email, password_hash, role_id, status) VALUES
+(
+    'Site Administrator', 'admin', 'callcenter.ovijat@gmail.com',
     '$2y$10$mIKkAQCyDypq/vbSX0V4lOjRm/IXikzyjHPHBDT.qQlzeOFYlcofe',
-    (SELECT id FROM roles WHERE slug = 'super_admin'),
-    'active'
+    (SELECT id FROM roles WHERE slug = 'super_admin'), 'active'
+),
+(
+    'Admin User', 'siteadmin', 'siteadmin@gidl.local',
+    '$2y$10$h2srETyutyj8YtiRHt7HW.Hw3ptOsdkyAf3/xTx/odmvscF74k7hi',
+    (SELECT id FROM roles WHERE slug = 'admin'), 'active'
+),
+(
+    'Editor User', 'editor', 'editor@gidl.local',
+    '$2y$10$vzZfmIqZxOf0YIMGCj9ByulsHgXqyRiyFV8rB4lSS0zjcfw88Gqpq',
+    (SELECT id FROM roles WHERE slug = 'editor'), 'active'
+),
+(
+    'Contributor User', 'contributor', 'contributor@gidl.local',
+    '$2y$10$R1drw2pgivfjr71jdifNIekdVm0ANbrNfVsPk2nfEcQexV1LWas1y',
+    (SELECT id FROM roles WHERE slug = 'contributor'), 'active'
+),
+(
+    'Reader User', 'reader', 'reader@gidl.local',
+    '$2y$10$5RFo/cvboGzYuhoK3nLeRe.TeKzxjPR4LLolYqRwzq6BbNryErsce',
+    (SELECT id FROM roles WHERE slug = 'registered_user'), 'active'
 );
 
 -- ------------------------------------------------------------------ gitas
@@ -97,6 +119,20 @@ VALUES
     'published'
 ),
 (
+    (SELECT id FROM gitas WHERE slug = 'bhagavad-gita'), 3,
+    'The Yoga of Action', 'कर्मयोगः', 'Karma Yoga',
+    'Krishna explains why action cannot simply be renounced, and how performing one''s duty without attachment is itself a path to freedom.',
+    'Duty; action versus inaction; performing one''s own role sincerely',
+    'published'
+),
+(
+    (SELECT id FROM gitas WHERE slug = 'bhagavad-gita'), 4,
+    'Knowledge and the Renunciation of Action', 'ज्ञानकर्मसंन्यासयोगः', 'The Yoga of Divine Knowledge',
+    'Krishna describes how balance is restored whenever it declines too far, and how right understanding transforms the nature of action.',
+    'Renewal of dharma; knowledge in action; right understanding',
+    'published'
+),
+(
     (SELECT id FROM gitas WHERE slug = 'bhagavad-gita'), 6,
     'The Yoga of Meditation', 'ध्यानयोगः', 'Self-Control',
     'Krishna describes the discipline of meditation and the importance of steadily elevating oneself through self-effort.',
@@ -120,7 +156,7 @@ VALUES
 
 -- ----------------------------------------------------------------- verses
 
-INSERT INTO verses (gita_id, chapter_id, verse_number, sanskrit_text, transliteration, literal_translation, simple_translation_en, key_teaching, translator, featured, status)
+INSERT INTO verses (gita_id, chapter_id, verse_number, sanskrit_text, transliteration, literal_translation, simple_translation_en, translation_bn, key_teaching, translator, featured, status)
 VALUES
 (
     (SELECT id FROM gitas WHERE slug = 'bhagavad-gita'),
@@ -130,6 +166,7 @@ VALUES
     'mātrā-sparśās tu kaunteya śītoṣṇa-sukha-duḥkha-dāḥ / āgamāpāyino ''nityās tāṁs titikṣasva bhārata',
     'Contacts of the senses, O son of Kunti, give rise to cold and heat, pleasure and pain; they come and go, being impermanent — endure them, O Bharata.',
     'Season-bound contact with the senses brings cold and heat, pleasure and pain. These come and go, they do not last — learn to endure them.',
+    'ইন্দ্রিয়ের সংস্পর্শ শীত-উষ্ণতা এবং সুখ-দুঃখ নিয়ে আসে। এগুলো আসে আর চলে যায়, স্থায়ী নয় — এগুলো সহ্য করতে শেখো।',
     'Sensory experiences of pleasure and pain are temporary; equanimity is built by learning to tolerate them.',
     'Prepared for Gita in Daily Life',
     0, 'published'
@@ -142,6 +179,7 @@ VALUES
     'na jāyate mriyate vā kadācin nāyaṁ bhūtvā bhavitā vā na bhūyaḥ / ajo nityaḥ śāśvato ''yaṁ purāṇo na hanyate hanyamāne śarīre',
     'The Self is never born, nor does it ever die; nor having come into being will it ever cease to be. It is unborn, eternal, ever-existing, primeval; it is not killed when the body is killed.',
     'The Self is never born and never dies. It does not come into being and then cease. It is unborn, eternal, ever-existing, and primeval; it is not killed when the body is killed.',
+    'আত্মা কখনো জন্মায় না, কখনো মরে না। এটি সৃষ্টি হয়ে আবার বিলীনও হয় না। এটি অজাত, নিত্য, চিরস্থায়ী ও সনাতন; দেহ বিনষ্ট হলেও আত্মা বিনষ্ট হয় না।',
     'The true Self is eternal and untouched by the death of the body — a perspective for facing grief and loss.',
     'Prepared for Gita in Daily Life',
     0, 'published'
@@ -154,6 +192,7 @@ VALUES
     'karmaṇy-evādhikāras te mā phaleṣu kadācana / mā karma-phala-hetur bhūr mā te saṅgo ''stv akarmaṇi',
     'You have a right to action alone, never to its fruits; let not the fruits of action be your motive, nor let your attachment be to inaction.',
     'You have a right to perform your duty, but never to the fruits of your actions. Do not let the results of action be your motive, and never be attached to inaction either.',
+    'কর্ম করার অধিকার তোমার আছে, কিন্তু তার ফলের উপর কখনো নয়। কর্মফলকে নিজের উদ্দেশ্য বানিও না, আবার নিষ্ক্রিয়তার প্রতিও আসক্ত হয়ো না।',
     'Focus wholeheartedly on sincere effort; release the anxious grip on results.',
     'Prepared for Gita in Daily Life',
     1, 'published'
@@ -166,6 +205,7 @@ VALUES
     'yoga-sthaḥ kuru karmāṇi saṅgaṁ tyaktvā dhanañjaya / siddhy-asiddhyoḥ samo bhūtvā samatvaṁ yoga ucyate',
     'Steadfast in yoga, perform your duties, abandoning attachment, O Dhananjaya, remaining even-minded in success and failure; such evenness is called yoga.',
     'Established in yoga, perform your duties, O Dhananjaya, abandoning attachment, and remaining even-minded in success and failure. This evenness of mind is called yoga.',
+    'হে ধনঞ্জয়, যোগে স্থিত থেকে আসক্তি ত্যাগ করে নিজ কর্তব্য পালন করো, এবং সাফল্য-ব্যর্থতায় সমচিত্ত থাকো। এই মনের সমতাই যোগ নামে পরিচিত।',
     'Equanimity toward success and failure is itself the practice.',
     'Prepared for Gita in Daily Life',
     0, 'published'
@@ -178,6 +218,7 @@ VALUES
     'dhyāyato viṣayān puṁsaḥ saṅgas teṣūpajāyate / saṅgāt sañjāyate kāmaḥ kāmāt krodho ''bhijāyate',
     'For a person dwelling on sense objects, attachment to them arises; from attachment, desire is born; from desire, anger arises.',
     'When a person dwells on sense objects, attachment to them develops. From attachment comes desire, and from desire, anger is born.',
+    'বিষয়বস্তু নিয়ে চিন্তা করতে থাকলে মানুষের মনে তার প্রতি আসক্তি জন্মায়। আসক্তি থেকে কামনার সৃষ্টি হয়, আর কামনা থেকে ক্রোধের জন্ম হয়।',
     'Anger has a traceable root: dwelling on objects leads to attachment, then desire, then anger.',
     'Prepared for Gita in Daily Life',
     0, 'published'
@@ -190,6 +231,7 @@ VALUES
     'krodhād bhavati sammohaḥ sammohāt smṛti-vibhramaḥ / smṛti-bhraṁśād buddhi-nāśo buddhi-nāśāt praṇaśyati',
     'From anger comes delusion; from delusion, confusion of memory; from confusion of memory, the ruin of discrimination; from the ruin of discrimination, one perishes.',
     'From anger comes delusion, from delusion the loss of memory, from loss of memory the ruin of discrimination, and when discrimination is ruined, one falls.',
+    'ক্রোধ থেকে মোহ, মোহ থেকে স্মৃতিভ্রংশ, স্মৃতিভ্রংশ থেকে বুদ্ধিনাশ ঘটে, আর বুদ্ধিনাশ হলে মানুষ পতিত হয়।',
     'Anger left unmanaged cascades into confusion, forgetfulness and poor judgment — catch it early.',
     'Prepared for Gita in Daily Life',
     1, 'published'
@@ -202,7 +244,60 @@ VALUES
     'uddhared ātmanātmānaṁ nātmānam avasādayet / ātmaiva hy ātmano bandhur ātmaiva ripur ātmanaḥ',
     'Let one lift oneself by oneself; let one not degrade oneself. For the self alone is the friend of the self, and the self alone is the enemy of the self.',
     'Lift yourself up by your own efforts; do not let yourself down. The self alone is the friend of the self, and the self alone is the enemy of the self.',
+    'নিজের চেষ্টায় নিজেকে উন্নত করো; নিজেকে অধঃপতিত হতে দিও না। আত্মাই আত্মার একমাত্র বন্ধু, আবার আত্মাই আত্মার একমাত্র শত্রু।',
     'Self-discipline is self-authored — you are both your greatest support and your greatest obstacle.',
+    'Prepared for Gita in Daily Life',
+    0, 'published'
+),
+(
+    (SELECT id FROM gitas WHERE slug = 'bhagavad-gita'),
+    (SELECT id FROM chapters WHERE gita_id = (SELECT id FROM gitas WHERE slug = 'bhagavad-gita') AND chapter_number = 6),
+    6,
+    'बन्धुरात्मात्मनस्तस्य येनात्मैवात्मना जितः। अनात्मनस्तु शत्रुत्वे वर्तेतात्मैव शत्रुवत्॥',
+    'bandhur ātmātmanas tasya yenātmaivātmanā jitaḥ / anātmanas tu śatrutve vartetātmaiva śatru-vat',
+    'For one whose self has been conquered by the self, the self is a friend; but for one who has not conquered the self, the self remains hostile, like an enemy.',
+    'For one who has conquered the mind, the mind is the best of friends; but for one who has failed to do so, the mind remains the greatest enemy.',
+    'যে নিজের মনকে জয় করেছে, তার কাছে মনই সবচেয়ে ভালো বন্ধু; কিন্তু যে তা পারেনি, তার কাছে মনই সবচেয়ে বড় শত্রু।',
+    'Companion verse to 6.5 — the mind''s role as friend or enemy depends entirely on self-mastery.',
+    'Prepared for Gita in Daily Life',
+    0, 'published'
+),
+(
+    (SELECT id FROM gitas WHERE slug = 'bhagavad-gita'),
+    (SELECT id FROM chapters WHERE gita_id = (SELECT id FROM gitas WHERE slug = 'bhagavad-gita') AND chapter_number = 2),
+    11,
+    'श्रीभगवानुवाच। अशोच्यानन्वशोचस्त्वं प्रज्ञावादांश्च भाषसे। गतासूनगतासूंश्च नानुशोचन्ति पण्डिताः॥',
+    'śrī-bhagavān uvāca: aśocyān anvaśocas tvaṁ prajñā-vādāṁś ca bhāṣase / gatāsūn agatāsūṁś ca nānuśocanti paṇḍitāḥ',
+    'The Blessed Lord said: You grieve for those who should not be grieved for, yet you speak words of wisdom. The learned grieve neither for the living nor for the dead.',
+    'The Blessed Lord said: You grieve for those who should not be grieved for, yet you speak words of wisdom. The wise grieve neither for the living nor for the dead.',
+    'শ্রীভগবান বললেন: তুমি যাদের জন্য শোক করা উচিত নয় তাদের জন্য শোক করছ, অথচ জ্ঞানীর মতো কথা বলছ। প্রকৃত জ্ঞানীরা জীবিত বা মৃত কারো জন্যই শোক করেন না।',
+    'True wisdom does not grieve over what is temporary — the foundation for the teaching that follows.',
+    'Prepared for Gita in Daily Life',
+    0, 'published'
+),
+(
+    (SELECT id FROM gitas WHERE slug = 'bhagavad-gita'),
+    (SELECT id FROM chapters WHERE gita_id = (SELECT id FROM gitas WHERE slug = 'bhagavad-gita') AND chapter_number = 3),
+    35,
+    'श्रेयान्स्वधर्मो विगुणः परधर्मात्स्वनुष्ठितात्। स्वधर्मे निधनं श्रेयः परधर्मो भयावहः॥',
+    'śreyān sva-dharmo viguṇaḥ para-dharmāt sv-anuṣṭhitāt / sva-dharme nidhanaṁ śreyaḥ para-dharmo bhayāvahaḥ',
+    'Better is one''s own duty, though imperfect, than the duty of another well performed. Death in one''s own duty is better; the duty of another invites danger.',
+    'Better is one''s own duty, though imperfectly performed, than the duty of another well performed. Death in one''s own duty is better; another''s duty invites danger.',
+    'নিজের ধর্ম অসম্পূর্ণভাবে পালন করাও অন্যের ধর্ম নিখুঁতভাবে পালনের চেয়ে শ্রেয়। নিজ ধর্মে মৃত্যুও শ্রেয়, কিন্তু পরধর্ম ভয়ের কারণ।',
+    'Authenticity to one''s own path matters more than imitating another''s, even imperfectly.',
+    'Prepared for Gita in Daily Life',
+    0, 'published'
+),
+(
+    (SELECT id FROM gitas WHERE slug = 'bhagavad-gita'),
+    (SELECT id FROM chapters WHERE gita_id = (SELECT id FROM gitas WHERE slug = 'bhagavad-gita') AND chapter_number = 4),
+    7,
+    'यदा यदा हि धर्मस्य ग्लानिर्भवति भारत। अभ्युत्थानमधर्मस्य तदात्मानं सृजाम्यहम्॥',
+    'yadā yadā hi dharmasya glānir bhavati bhārata / abhyutthānam adharmasya tadātmānaṁ sṛjāmy aham',
+    'Whenever there is a decline of righteousness, O Bharata, and a rise of unrighteousness, at that time I manifest myself.',
+    'Whenever there is a decline of dharma, O Bharata, and a rise of adharma, at that time I manifest myself.',
+    'হে ভারত, যখনই ধর্মের গ্লানি ঘটে এবং অধর্মের উত্থান হয়, তখনই আমি নিজেকে প্রকাশ করি।',
+    'A recurring principle in the text: balance is restored when righteousness declines too far.',
     'Prepared for Gita in Daily Life',
     0, 'published'
 ),
@@ -214,6 +309,7 @@ VALUES
     'janaka uvāca: kathaṁ jñānam avāpnoti kathaṁ muktir bhaviṣyati / vairāgyaṁ ca kathaṁ prāptam etad brūhi mama prabho',
     'Janaka said: How does one attain knowledge? How does liberation come about? And how is dispassion reached? Tell me this, O Lord.',
     'King Janaka asked: How does one attain knowledge? How does liberation come about? And how is dispassion reached? Please tell me this.',
+    'রাজা জনক জিজ্ঞাসা করলেন: কীভাবে জ্ঞান লাভ হয়? কীভাবে মুক্তি ঘটে? আর কীভাবে বৈরাগ্য অর্জিত হয়? আমাকে এই বিষয়ে বলুন।',
     'The dialogue opens with the three questions that frame the whole text: knowledge, liberation, and dispassion. Sample/demo verse — see the Gita introduction for sourcing notes.',
     'Prepared for Gita in Daily Life (sample content)',
     0, 'published'
@@ -226,6 +322,7 @@ VALUES
     'oṁ īśvarānugrahād eva puṁsām advaita-vāsanā / mahad-bhaya-paritrāṇād viprāṇām upajāyate',
     'By the grace of the Divine alone does the inclination toward non-duality arise in the wise, for the removal of great fear.',
     'By the grace of the Divine alone does the inclination toward non-duality arise in the wise, offering freedom from deep fear.',
+    'কেবল ঈশ্বরের কৃপাতেই জ্ঞানীদের মধ্যে অদ্বৈত-ভাবনার উদয় হয়, যা গভীর ভয় থেকে মুক্তি দেয়।',
     'Non-dual understanding is described here as arising by grace. Sample/demo verse — see the Gita introduction for sourcing notes.',
     'Prepared for Gita in Daily Life (sample content)',
     0, 'published'
@@ -253,13 +350,14 @@ INSERT INTO situations (name, slug, description, icon, status) VALUES
 
 -- --------------------------------------------------------------- mantras
 
-INSERT INTO mantras (title, slug, sanskrit, transliteration, meaning, source, purpose, traditionally_recited, status)
+INSERT INTO mantras (title, slug, sanskrit, transliteration, meaning, meaning_bn, source, purpose, traditionally_recited, status)
 VALUES
 (
     'Pavamana Mantra — Lead Me From Untruth to Truth', 'om-asato-ma-sadgamaya',
     'ॐ असतो मा सद्गमय। तमसो मा ज्योतिर्गमय। मृत्योर्मा अमृतं गमय॥ ॐ शान्तिः शान्तिः शान्तिः॥',
     'oṁ asato mā sad gamaya / tamaso mā jyotir gamaya / mṛtyor mā amṛtaṁ gamaya / oṁ śāntiḥ śāntiḥ śāntiḥ',
     'From the unreal, lead me to the real; from darkness, lead me to light; from death, lead me to immortality.',
+    'অসত্য থেকে সত্যের দিকে আমাকে নিয়ে চলো; অন্ধকার থেকে আলোর দিকে আমাকে নিয়ে চলো; মৃত্যু থেকে অমৃতের দিকে আমাকে নিয়ে চলো।',
     'Bṛhadāraṇyaka Upaniṣad 1.3.28 (traditional, public domain Sanskrit text)',
     'Traditionally recited as an invocation for clarity, truth and inner light.',
     'Morning reflection, before study, meditation practice',
@@ -270,6 +368,7 @@ VALUES
     'ॐ शान्तिः शान्तिः शान्तिः॥',
     'oṁ śāntiḥ śāntiḥ śāntiḥ',
     'Peace in body, peace in mind and speech, peace in the surrounding world.',
+    'দেহে শান্তি, মন ও বাক্যে শান্তি, চারপাশের জগতে শান্তি বিরাজ করুক।',
     'Traditional Shanti Path (public domain Sanskrit text)',
     'Traditionally recited to close a practice session or reading, invoking peace.',
     'End of study, meditation, or recitation',
@@ -324,12 +423,20 @@ WHERE c.gita_id = (SELECT id FROM gitas WHERE slug='bhagavad-gita') AND c.chapte
  (v.verse_number=62 AND t.slug='anger') OR
  (v.verse_number=63 AND t.slug='anger') OR
  (v.verse_number=20 AND t.slug IN ('self-atman','grief')) OR
- (v.verse_number=14 AND t.slug='detachment')
+ (v.verse_number=14 AND t.slug='detachment') OR
+ (v.verse_number=11 AND t.slug IN ('grief','self-atman'))
 );
 
 INSERT INTO verse_topics (verse_id, topic_id)
 SELECT v.id, t.id FROM verses v JOIN chapters c ON c.id=v.chapter_id, topics t
-WHERE c.gita_id=(SELECT id FROM gitas WHERE slug='bhagavad-gita') AND c.chapter_number=6 AND v.verse_number=5 AND t.slug IN ('discipline','self-atman');
+WHERE c.gita_id=(SELECT id FROM gitas WHERE slug='bhagavad-gita') AND c.chapter_number=6 AND v.verse_number IN (5,6) AND t.slug IN ('discipline','self-atman');
+
+INSERT INTO verse_topics (verse_id, topic_id)
+SELECT v.id, t.id FROM verses v JOIN chapters c ON c.id=v.chapter_id, topics t
+WHERE c.gita_id=(SELECT id FROM gitas WHERE slug='bhagavad-gita') AND (
+ (c.chapter_number=3 AND v.verse_number=35 AND t.slug IN ('dharma','discipline')) OR
+ (c.chapter_number=4 AND v.verse_number=7 AND t.slug='dharma')
+);
 
 INSERT INTO verse_topics (verse_id, topic_id)
 SELECT v.id, (SELECT id FROM topics WHERE slug='self-atman') FROM verses v
@@ -346,7 +453,7 @@ SELECT v.id, s.id FROM verses v JOIN chapters c ON c.id = v.chapter_id, situatio
 WHERE c.gita_id = (SELECT id FROM gitas WHERE slug='bhagavad-gita') AND (
   (c.chapter_number=2 AND v.verse_number IN (47,48) AND s.slug='fear-of-failure') OR
   (c.chapter_number=2 AND v.verse_number IN (62,63) AND s.slug='anger') OR
-  (c.chapter_number=2 AND v.verse_number=20 AND s.slug='grief-loss') OR
+  (c.chapter_number=2 AND v.verse_number IN (11,20) AND s.slug='grief-loss') OR
   (c.chapter_number=2 AND v.verse_number=14 AND s.slug='stress') OR
   (c.chapter_number=6 AND v.verse_number=5 AND s.slug='lack-of-discipline')
 );
@@ -368,7 +475,7 @@ SELECT v.id, te.id FROM verses v JOIN chapters c ON c.id=v.chapter_id, teachings
 WHERE c.gita_id=(SELECT id FROM gitas WHERE slug='bhagavad-gita') AND c.chapter_number=2 AND (
   (v.verse_number IN (47,48) AND te.slug='fear-of-failing-teaching') OR
   (v.verse_number IN (62,63) AND te.slug='anger-teaching') OR
-  (v.verse_number=20 AND te.slug='grief-teaching')
+  (v.verse_number IN (11,20) AND te.slug='grief-teaching')
 );
 
 INSERT INTO mantra_situations (mantra_id, situation_id)

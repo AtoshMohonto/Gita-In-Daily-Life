@@ -1,7 +1,7 @@
 <div class="container py-5">
   <nav aria-label="breadcrumb"><ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="<?= e(url('')) ?>">Home</a></li>
-    <li class="breadcrumb-item"><a href="<?= e(url('situations')) ?>">Life Situations</a></li>
+    <li class="breadcrumb-item"><a href="<?= e(url('')) ?>"><?= e(__t('breadcrumb.home')) ?></a></li>
+    <li class="breadcrumb-item"><a href="<?= e(url('situations')) ?>"><?= e(__t('breadcrumb.situations')) ?></a></li>
     <li class="breadcrumb-item active"><?= e($situation['name']) ?></li>
   </ol></nav>
 
@@ -30,13 +30,13 @@
   <?php endif; ?>
 
   <?php if ($verses !== []): ?>
-    <h2 class="h5 mb-3">Relevant Verses</h2>
+    <h2 class="h5 mb-3"><?= e(__t('situations.relevant_verses')) ?></h2>
     <div class="row g-3 mb-5">
       <?php foreach ($verses as $verse): ?>
         <div class="col-md-6">
           <a href="<?= e(url('verses/' . $verse['gita_slug'] . '/' . $verse['chapter_number'] . '/' . $verse['verse_number'])) ?>" class="card-gidl p-3 d-block text-decoration-none text-reset h-100">
             <div class="small text-muted mb-1"><?= e($verse['gita_name']) ?> • <?= (int) $verse['chapter_number'] ?>.<?= (int) $verse['verse_number'] ?></div>
-            <p class="mb-0"><?= e(str_excerpt($verse['simple_translation_en'], 130)) ?></p>
+            <p class="mb-0"><?= e(str_excerpt(verse_text($verse), 130)) ?></p>
           </a>
         </div>
       <?php endforeach; ?>
@@ -44,13 +44,13 @@
   <?php endif; ?>
 
   <?php if ($mantras !== []): ?>
-    <h2 class="h5 mb-3">Related Mantras</h2>
+    <h2 class="h5 mb-3"><?= e(__t('situations.related_mantras')) ?></h2>
     <div class="row g-3">
       <?php foreach ($mantras as $mantra): ?>
         <div class="col-md-6">
           <a href="<?= e(url('mantras/' . $mantra['slug'])) ?>" class="card-gidl p-3 d-block text-decoration-none text-reset h-100">
             <p class="fw-semibold mb-1"><?= e($mantra['title']) ?></p>
-            <p class="text-muted small mb-0"><?= e(str_excerpt($mantra['meaning'], 110)) ?></p>
+            <p class="text-muted small mb-0"><?= e(str_excerpt(mantra_text($mantra), 110)) ?></p>
           </a>
         </div>
       <?php endforeach; ?>
@@ -58,6 +58,6 @@
   <?php endif; ?>
 
   <?php if ($teachings === [] && $verses === [] && $mantras === []): ?>
-    <p class="text-muted text-center">No content has been connected to this situation yet.</p>
+    <p class="text-muted text-center"><?= e(__t('situations.no_content')) ?></p>
   <?php endif; ?>
 </div>

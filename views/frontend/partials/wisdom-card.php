@@ -11,13 +11,13 @@ $card = $card ?? [];
     “<?= e($card['quote'] ?? '') ?>”
   </blockquote>
   <?php if (!empty($card['source'])): ?>
-    <p class="small text-muted mb-3">Source: <?= e($card['source']) ?></p>
+    <p class="small text-muted mb-3"><?= e(__t('wisdom_card.source')) ?> <?= e($card['source']) ?></p>
   <?php endif; ?>
   <?php if (!empty($card['key_idea'])): ?>
-    <p class="mb-2"><strong>Key Idea:</strong> <?= e($card['key_idea']) ?></p>
+    <p class="mb-2"><strong><?= e(__t('wisdom_card.key_idea')) ?></strong> <?= e($card['key_idea']) ?></p>
   <?php endif; ?>
   <?php if (!empty($card['apply'])): ?>
-    <p class="mb-3"><strong>Apply Today:</strong> <?= e($card['apply']) ?></p>
+    <p class="mb-3"><strong><?= e(__t('wisdom_card.apply_today')) ?></strong> <?= e($card['apply']) ?></p>
   <?php endif; ?>
   <?php if (!empty($card['link'])): ?>
     <a href="<?= e($card['link']) ?>" class="btn btn-sm btn-outline-primary"><?= e(__t('action.read_more')) ?></a>

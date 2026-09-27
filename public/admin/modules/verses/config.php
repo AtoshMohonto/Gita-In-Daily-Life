@@ -25,7 +25,7 @@ return [
         'word_by_word_meaning' => ['label' => 'Word-by-Word Meaning', 'type' => 'textarea'],
         'literal_translation' => ['label' => 'Literal Translation', 'type' => 'textarea'],
         'simple_translation_en' => ['label' => 'Simple English Translation', 'type' => 'richtext'],
-        'translation_bn' => ['label' => 'Bengali Translation', 'type' => 'textarea'],
+        'translation_bn' => ['label' => 'বাংলা অনুবাদ (Bengali Translation)', 'type' => 'richtext'],
         'explanation' => ['label' => 'Explanation', 'type' => 'richtext'],
         'philosophical_meaning' => ['label' => 'Philosophical Meaning', 'type' => 'richtext'],
         'key_teaching' => ['label' => 'Key Teaching (short)', 'type' => 'text'],

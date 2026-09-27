@@ -21,8 +21,8 @@
             <h3 class="h5 font-serif"><?= e($gita['name']) ?></h3>
             <p class="text-muted small mb-3"><?= e(str_excerpt($gita['short_description'], 110)) ?></p>
             <div class="small text-muted mb-2">
-              <?= (int) Gita::chapterCount((int) $gita['id']) ?> chapters &middot;
-              <?= (int) Gita::verseCount((int) $gita['id']) ?> verses
+              <?= (int) Gita::chapterCount((int) $gita['id']) ?> <?= e(__t('gitas.chapters_suffix')) ?> &middot;
+              <?= (int) Gita::verseCount((int) $gita['id']) ?> <?= e(__t('gitas.verses_suffix')) ?>
             </div>
             <span class="btn btn-sm btn-outline-primary"><?= e(__t('action.view_chapters')) ?></span>
           </div>
@@ -30,7 +30,7 @@
       </div>
     <?php endforeach; ?>
     <?php if ($featuredGitas === []): ?>
-      <p class="text-muted">No Gitas published yet — add one from the admin panel.</p>
+      <p class="text-muted"><?= e(__t('gitas.none_yet')) ?></p>
     <?php endif; ?>
   </div>
 </section>
@@ -58,8 +58,8 @@
     <div class="col-md-8">
       <?php
         $card = [
-            'quote' => $dailyWisdom['simple_translation_en'],
-            'source' => $dailyWisdom['gita_name'] . ' • Chapter ' . $dailyWisdom['chapter_number'] . ' • Verse ' . $dailyWisdom['verse_number'],
+            'quote' => verse_text($dailyWisdom),
+            'source' => $dailyWisdom['gita_name'] . ' • ' . __t('chapter.label') . ' ' . $dailyWisdom['chapter_number'] . ' • ' . __t('chapter.verse_label') . ' ' . $dailyWisdom['verse_number'],
             'key_idea' => $dailyWisdom['title'],
             'apply' => $dailyWisdom['practical_action'],
             'link' => url('verses/' . $dailyWisdom['gita_slug'] . '/' . $dailyWisdom['chapter_number'] . '/' . $dailyWisdom['verse_number']),

@@ -62,6 +62,24 @@ function current_lang(): string
     return Session::get('lang', DEFAULT_LANGUAGE);
 }
 
+/** Verse translation text in the current UI language, falling back to English. */
+function verse_text(array $verse): string
+{
+    if (current_lang() === 'bn' && !empty($verse['translation_bn'])) {
+        return (string) $verse['translation_bn'];
+    }
+    return (string) ($verse['simple_translation_en'] ?? '');
+}
+
+/** Mantra meaning text in the current UI language, falling back to English. */
+function mantra_text(array $mantra): string
+{
+    if (current_lang() === 'bn' && !empty($mantra['meaning_bn'])) {
+        return (string) $mantra['meaning_bn'];
+    }
+    return (string) ($mantra['meaning'] ?? '');
+}
+
 /** Translate a UI string key using /languages/{lang}.php. */
 function __t(string $key, array $replace = []): string
 {

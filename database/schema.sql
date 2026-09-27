@@ -222,6 +222,7 @@ CREATE TABLE verse_tags (
 -- -------------------------------------------------------------- teachings
 
 DROP TABLE IF EXISTS verse_teachings;
+DROP TABLE IF EXISTS verse_topics;
 DROP TABLE IF EXISTS teaching_topics;
 DROP TABLE IF EXISTS teaching_translations;
 DROP TABLE IF EXISTS teachings;
@@ -336,6 +337,7 @@ CREATE TABLE mantras (
     pronunciation_bn TEXT NULL,
     pronunciation_en TEXT NULL,
     meaning TEXT NULL,
+    meaning_bn TEXT NULL,
     translation TEXT NULL,
     deity_association VARCHAR(150) NULL,
     purpose VARCHAR(500) NULL,

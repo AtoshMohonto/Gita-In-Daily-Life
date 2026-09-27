@@ -32,10 +32,23 @@ anger, discipline, grief, and more.
 5. Visit **http://localhost/Gita-In-Daily-Life/public/** (the root
    `index.php` redirects here for convenience).
 6. Admin panel: **http://localhost/Gita-In-Daily-Life/public/admin/login.php**
-   - Seeded Super Admin: `admin` / `GitaAdmin@2026` — **change this password
-     after first login** (there is no self-service password change screen
-     yet in Phase 1; update the `users.password_hash` column directly with
-     `password_hash()`, or wait for the Users admin module in a later phase).
+   — one demo account per role, all **change these passwords before any real
+   deployment** (there is no self-service password change screen yet in
+   Phase 1; update `users.password_hash` directly with `password_hash()`, or
+   wait for the Users admin module in a later phase):
+
+   | Role | Username | Password | Can access |
+   |---|---|---|---|
+   | Super Admin | `admin` | `GitaAdmin@2026` | Everything, including Settings |
+   | Admin | `siteadmin` | `Admin@2026` | Everything, including Settings |
+   | Editor | `editor` | `Editor@2026` | All content modules, not Settings |
+   | Contributor | `contributor` | `Contrib@2026` | All content modules, not Settings |
+   | Registered User | `reader` | `Reader@2026` | No admin panel access (this role is for the future public-facing account system, not admin) |
+
+   Role gating is enforced per module via `Auth::requireRole()` in each
+   `public/admin/modules/*/index.php` — verified end to end (each role above
+   was logged in and checked against `/admin/modules/gitas/` and
+   `/admin/modules/settings/`).
 
 ## Why the URL includes `/public`
 
@@ -144,3 +157,24 @@ Application**, and **Reflection** as distinct labeled sections
 Avadhuta Gita is a single well-known illustrative verse each, explicitly
 marked as sample/demo content pending fuller scholarly-reviewed sourcing —
 see the comment at the top of `database/seed.sql`.
+
+## Multilingual content (English / বাংলা)
+
+Two layers of translation exist, both driven by the `/lang/{en|bn}` switch
+(stored in the session, read by `current_lang()`):
+
+1. **UI chrome** — every static string (nav, breadcrumbs, buttons, empty
+   states, error pages) goes through the `__t('key')` helper, backed by
+   `languages/en.php` / `languages/bn.php`. Add a new UI string by adding the
+   same key to both files.
+2. **Content** — `verses.translation_bn` and `mantras.meaning_bn` hold
+   editor-provided Bengali translations alongside the English
+   `simple_translation_en` / `meaning`. The `verse_text()` / `mantra_text()`
+   helpers (`app/helpers/functions.php`) pick whichever matches
+   `current_lang()`, falling back to English, and show the other language as
+   a smaller secondary line on the verse/mantra detail page so nothing is
+   silently hidden. All 13 seeded verses and both seeded mantras currently
+   have Bengali translations; chapter/Gita-level text (introductions,
+   philosophy, etc.) does not yet — `gita_translations` and
+   `chapter_translations` tables exist in the schema for that but are unused
+   in Phase 1.

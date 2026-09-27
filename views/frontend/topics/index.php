@@ -1,6 +1,6 @@
 <div class="container py-5">
-  <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="<?= e(url('')) ?>">Home</a></li><li class="breadcrumb-item active">Topics</li></ol></nav>
-  <h1 class="h2 font-serif mb-4">Topics</h1>
+  <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="<?= e(url('')) ?>"><?= e(__t('breadcrumb.home')) ?></a></li><li class="breadcrumb-item active"><?= e(__t('breadcrumb.topics')) ?></li></ol></nav>
+  <h1 class="h2 font-serif mb-4"><?= e(__t('topics.page_title')) ?></h1>
   <div class="row g-3">
     <?php foreach ($topics as $topic): ?>
       <div class="col-md-4">
